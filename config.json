@@ -1,0 +1,11 @@
+{
+  "agencies": [
+    {
+      "agencyKey": "hyderabad-transit",
+      "path": "./hyderabad.zip"
+    }
+  ],
+  "outputType": "route",
+  "coordinatePrecision": 5,
+  "skipImport": false
+}
