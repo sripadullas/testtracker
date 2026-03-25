@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hyderabad Transit Explorer</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin: 0; padding: 0; background: #1a1a1a; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+        .overlay { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.8); color: white; padding: 15px; border-radius: 8px; font-family: sans-serif; }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<div class="overlay">
+    <h2>Hyderabad Explorer</h2>
+    <p>TGSRTC & Metro Network</p>
+</div>
+
+<script>
+    mapboxgl.accessToken = 'YOUR_MAPBOX_TOKEN'; // Get a free token at mapbox.com
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/dark-v11', // The "Spider" dark look
+        center: [78.4867, 17.3850], // Hyderabad center
+        zoom: 11
+    });
+
+    map.on('load', () => {
+        // This pulls the GeoJSON you generated in Step 1
+        map.addSource('transit-data', {
+            type: 'geojson',
+            data: './geojson/hyderabad-transit.geojson' 
+        });
+
+        map.addLayer({
+            'id': 'route-lines',
+            'type': 'line',
+            'source': 'transit-data',
+            'layout': { 'line-join': 'round', 'line-cap': 'round' },
+            'paint': {
+                'line-color': ['coalesce', ['get', 'route_color'], '#00FF00'], 
+                'line-width': 2,
+                'line-opacity': 0.8
+            }
+        });
+    });
+</script>
+</body>
+</html>
